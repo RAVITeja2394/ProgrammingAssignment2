@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## The function will reduce the computation time by using lexical scoping of R
 
-## Write a short comment describing this function
+
+## Below function will create sepcial matrix and save rresult in cache
 
 makeCacheMatrix <- function(x = matrix()) {
+inv<-NULL
+set<-function(y){               #setting value for result variable
+        x <<- y
+        inv <<- NULL
+}
+get <- function() x             #get value
+setinverse<- function(inverse) inv <<- inverse 
+getinverse<- function() inv
 
+list(set = set, get=get,setinverse=setinverse,getinverse=getinverse)
 }
 
 
-## Write a short comment describing this function
+## Compute the inverse of the matrix returned by the "makeCacheMatrix" function
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        inv <- x$getinverse() 
+        if(!is.null(inv)){              
+                print("getting cached data")
+                return(inv)
+        }
+data<-x$get()
+inv<-solve(data) %% data
+x$setinverse(inv)
+inv               # Return a matrix that is the inverse of 'x'
 }
